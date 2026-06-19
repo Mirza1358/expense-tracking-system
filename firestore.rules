@@ -1,0 +1,111 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isValidCategory(category) {
+      return category in [
+        'Food', 'Transport', 'Utilities', 'Health',
+        'Entertainment', 'Education', 'Shopping', 'Other'
+      ];
+    }
+
+    function isValidIsoDate(date) {
+      return date is string
+        && date.size() == 10
+        && date.matches('^\\d{4}-\\d{2}-\\d{2}$');
+    }
+
+    function isValidMonthId(monthId) {
+      return monthId is string && monthId.matches('^\\d{4}-\\d{2}$');
+    }
+
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['uid', 'email', 'displayName', 'photoURL', 'provider', 'createdAt', 'updatedAt'])
+        && data.uid is string
+        && data.uid == request.auth.uid
+        && data.email is string
+        && data.email.size() > 0
+        && data.email.size() <= 254
+        && data.displayName == null || (data.displayName is string && data.displayName.size() <= 120)
+        && data.photoURL == null || (data.photoURL is string && data.photoURL.size() <= 2048)
+        && data.provider is string
+        && data.createdAt is string
+        && data.updatedAt is string;
+    }
+
+    function isValidUserRoot(data) {
+      return data.keys().hasAll(['ownerId', 'createdAt'])
+        && data.ownerId is string
+        && data.ownerId == request.auth.uid
+        && data.createdAt is string;
+    }
+
+    function isValidExpense(data) {
+      return data.keys().hasAll(['uid', 'title', 'amount', 'category', 'date', 'note', 'receiptURL', 'createdAt'])
+        && data.uid is string
+        && data.uid == request.auth.uid
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 120
+        && data.amount is number
+        && data.amount > 0
+        && data.amount <= 1000000000
+        && isValidCategory(data.category)
+        && isValidIsoDate(data.date)
+        && data.note is string
+        && data.note.size() <= 500
+        && data.receiptURL is string
+        && data.receiptURL.size() <= 2048
+        && data.createdAt is string;
+    }
+
+    function isValidExpenseCreate() {
+      return isValidExpense(request.resource.data);
+    }
+
+    function isValidExpenseUpdate() {
+      return isValidExpense(request.resource.data)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.createdAt == resource.data.createdAt;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserProfile(request.resource.data);
+      allow update: if isOwner(userId)
+        && isValidUserProfile(request.resource.data)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
+    }
+
+    match /expenses/{userId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidUserRoot(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /expenses/{userId}/items/{expenseId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidExpenseCreate();
+      allow update: if isOwner(userId) && isValidExpenseUpdate();
+      allow delete: if isOwner(userId);
+    }
+
+    match /summaries/{userId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidUserRoot(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /summaries/{userId}/months/{monthId} {
+      allow read: if isOwner(userId) && isValidMonthId(monthId);
+      allow write: if false;
+    }
+  }
+}

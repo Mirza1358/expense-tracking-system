@@ -1,4 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expense Tracking System (ETS)
+
+An advanced, cloud-native Expense Tracking System designed to help users efficiently manage and visualize their finances. 
+
+This project was built leveraging modern **Cloud Computing** paradigms to ensure scalability, reliability, and ease of use. It incorporates principles of **SaaS** (Software as a Service) by providing a ready-to-use web platform, **BaaS** (Backend as a Service) by utilizing Firebase for data management and authentication, and **Serverless** architecture for seamless deployment and execution without managing infrastructure. The use of cloud technologies also enables **Elasticity**, allowing the application to scale resources automatically based on user demand.
+
+## Features
+
+- **Dashboard:** Interactive overview of expenses with visual charts (using Recharts).
+- **Expense Management:** Add, edit, delete, and view detailed expense records.
+- **Real-time Sync:** Powered by Firebase Firestore for real-time data updates.
+- **Responsive Design:** A beautiful and functional interface across all devices (built with Tailwind CSS and Next.js).
+- **Authentication:** Secure user login and registration powered by Firebase Authentication.
+
+## Technologies Used
+
+- **Frontend:** [Next.js](https://nextjs.org) (React framework), [Tailwind CSS](https://tailwindcss.com) for styling, [Recharts](https://recharts.org) for data visualization.
+- **Backend / BaaS:** [Firebase](https://firebase.google.com/) (Firestore Database, Firebase Authentication).
+- **Hosting:** [Vercel](https://vercel.com/) (Serverless deployment).
 
 ## Getting Started
 
@@ -16,21 +34,13 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Credits
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project was collaboratively developed by:
+- **Mirza** - System Architecture, Frontend Development, and Cloud Integration
+- **Umer Farooq**
+- **Haris Sajjad**
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*This project was bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).*
