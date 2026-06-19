@@ -37,7 +37,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Credits
 
 This project was collaboratively developed by:
-- **Mirza** - System Architecture, Frontend Development, and Cloud Integration
+- **Bilal Mirza** 
 - **Umer Farooq**
 - **Haris Sajjad**
 
