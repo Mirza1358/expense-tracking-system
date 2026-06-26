@@ -33,6 +33,7 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
 Vercel link :https://expense-tracker-rose-eight-32.vercel.app/auth/login
 
 ## Credits
